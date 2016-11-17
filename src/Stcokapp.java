@@ -19,15 +19,16 @@ import javax.swing.JButton;
 
 import java.awt.CardLayout;
 
+import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
+import javax.swing.JPasswordField;
 import javax.swing.JTable;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.EOFException;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -40,8 +41,8 @@ import yahoofinance.*;
 import javax.swing.JTextArea;
 
 import org.jfree.ui.RefineryUtilities;
-import javax.swing.JPasswordField;
-import javax.swing.JComboBox;
+
+//import org.jfree.ui.RefineryUtilities;
 
 public class Stcokapp extends JFrame /*implements ActionListener*/{
 
@@ -144,6 +145,7 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				layout.show(getContentPane(),"login");
+				username = "";
 			}
 		});
 		btnLogout.setBounds(331, 11, 88, 29);
@@ -171,6 +173,7 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 		btnLogout_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				layout.show(getContentPane(), "login");
+				username = "";
 			}
 		});
 		
@@ -189,14 +192,26 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 		gbc_comboBox.gridx = 0;
 		gbc_comboBox.gridy = 0;
 		panel_2.add(comboBox, gbc_comboBox);
+		
 		GridBagConstraints gbc_btnLogout_2 = new GridBagConstraints();
 		gbc_btnLogout_2.insets = new Insets(0, 0, 5, 0);
 		gbc_btnLogout_2.gridx = 1;
 		gbc_btnLogout_2.gridy = 0;
 		panel_2.add(btnLogout_2, gbc_btnLogout_2);
+		
+		JButton btnHome = new JButton("Home");
+		btnHome.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				layout.show(getContentPane(), "mainMenu");
+			}
+		});
+		GridBagConstraints gbc_btnHome = new GridBagConstraints();
+		gbc_btnHome.insets = new Insets(0, 0, 5, 0);
+		gbc_btnHome.gridx = 1;
+		gbc_btnHome.gridy = 1;
+		panel_2.add(btnHome, gbc_btnHome);
+		
 		JButton btnSelect = new JButton("select");
-		
-		
 		
 		GridBagConstraints gbc_btnSelect = new GridBagConstraints();
 		gbc_btnSelect.gridx = 1;
@@ -232,8 +247,19 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 		btnChoose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				layout.show(getContentPane(), "login");
+				username = "";
 			}
 		});
+		
+		JButton btnHome_1 = new JButton("Home");
+		btnHome_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				layout.show(getContentPane(), "mainMenu");
+			}
+		});
+		btnHome_1.setBounds(353, 47, 82, 29);
+		panel_3.add(btnHome_1);
+		
 		GridBagConstraints gbc_btnChoose = new GridBagConstraints();
 		gbc_btnChoose.anchor = GridBagConstraints.NORTH;
 		gbc_btnChoose.gridx = 2;
@@ -241,18 +267,37 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 		panel_3.add(btnChoose, gbc_btnChoose);
 		
 		JPanel panel_4 = new JPanel();
-		//panel_4.setBounds(100, 100, 800, 300);
+		//panel_4.setSize(800, 300);
 		contentPane.add(panel_4, "stockdata");
 		GridBagLayout gbl_panel_4 = new GridBagLayout();
 		gbl_panel_4.columnWidths = new int[]{0, 0, 0, 0};
-		gbl_panel_4.rowHeights = new int[]{0, 0, 0};
+		gbl_panel_4.rowHeights = new int[]{0, 0, 0, 0};
 		gbl_panel_4.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_4.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_4.rowWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_4.setLayout(gbl_panel_4);
 		
 		JButton btnNewButton = new JButton("choose history");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				historyGraph chart;
+				try {
+					chart = new historyGraph("History Data Graph", "History Data for certain interval", selectedStock);
+					chart.pack( );          
+				      RefineryUtilities.centerFrameOnScreen( chart );          
+				      chart.setVisible( true ); 
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			    
+			}
+		});
+		
+		JButton btnLogout_1 = new JButton("Logout");
+		btnLogout_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				layout.show(getContentPane(), "login");
+				username = "";
 			}
 		});
 		
@@ -266,43 +311,46 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 		gbc_textArea.gridy = 0;
 		panel_4.add(textArea, gbc_textArea);
 		
-		JButton btnLogout_1 = new JButton("Logout");
-		btnLogout_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				layout.show(getContentPane(), "login");
-			}
-		});
 		GridBagConstraints gbc_btnLogout_1 = new GridBagConstraints();
 		gbc_btnLogout_1.anchor = GridBagConstraints.NORTH;
 		gbc_btnLogout_1.insets = new Insets(0, 0, 5, 0);
 		gbc_btnLogout_1.gridx = 2;
 		gbc_btnLogout_1.gridy = 0;
 		panel_4.add(btnLogout_1, gbc_btnLogout_1);
+		
+		JButton btnHome_2 = new JButton("Home");
+		GridBagConstraints gbc_btnHome_2 = new GridBagConstraints();
+		gbc_btnHome_2.anchor = GridBagConstraints.NORTH;
+		gbc_btnHome_2.insets = new Insets(0, 0, 5, 0);
+		gbc_btnHome_2.gridx = 2;
+		gbc_btnHome_2.gridy = 1;
+		panel_4.add(btnHome_2, gbc_btnHome_2);
+		
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 1;
+		gbc_btnNewButton.gridy = 2;
 		panel_4.add(btnNewButton, gbc_btnNewButton);
 		
 		JButton btnMovingAverage = new JButton("moving average");
 		GridBagConstraints gbc_btnMovingAverage = new GridBagConstraints();
 		gbc_btnMovingAverage.insets = new Insets(0, 0, 0, 5);
 		gbc_btnMovingAverage.gridx = 1;
-		gbc_btnMovingAverage.gridy = 1;
+		gbc_btnMovingAverage.gridy = 2;
 		panel_4.add(btnMovingAverage, gbc_btnMovingAverage);
 		
 		JButton btnRecommedation = new JButton("recommedation");
-		/*btnRecommedation.addActionListener(new ActionListener() {
+		btnRecommedation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				graphGUI chart = new graphGUI("Browser Usage Statistics", "Which Browser are you using?");
+				graphGUI chart = new graphGUI("Recommedation", "Recommedation for "+selectedStock);
 			      chart.pack( );          
 			      RefineryUtilities.centerFrameOnScreen( chart );          
 			      chart.setVisible( true );
 			}
-		});*/
+		});
 		GridBagConstraints gbc_btnRecommedation = new GridBagConstraints();
 		gbc_btnRecommedation.gridx = 2;
-		gbc_btnRecommedation.gridy = 1;
+		gbc_btnRecommedation.gridy = 2;
 		panel_4.add(btnRecommedation, gbc_btnRecommedation);
 		
 		JPanel panel_5 = new JPanel();
@@ -410,40 +458,40 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 		});
 		
 		//Select stock button.
-		btnSelect.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				layout.show(getContentPane(), "stockdata");
-				try {
-					Stock select = YahooFinance.get(selectedStock);
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			    PrintStream ps = new PrintStream(baos);
-			    // IMPORTANT: Save the old System.out!
-			    PrintStream old = System.out;
-			    // Tell Java to use your special stream
-			    System.setOut(ps);
-			    // Print some output: goes to your special stream
-			    select.print();
-			    // Put things back
-			    System.out.flush();
-			    System.setOut(old);
-			    // Show what happened
-			    textArea.setText(baos.toString());
-			    Log2.writeToFile(selectedStock, username);	//Adding selected stock into the user's search log.
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}	
-			}
-		});
-		
+				btnSelect.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						layout.show(getContentPane(), "stockdata");
+						try {
+							Stock select = YahooFinance.get(selectedStock);
+						ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					    PrintStream ps = new PrintStream(baos);
+					    // IMPORTANT: Save the old System.out!
+					    PrintStream old = System.out;
+					    // Tell Java to use your special stream
+					    System.setOut(ps);
+					    // Print some output: goes to your special stream
+					    select.print();
+					    // Put things back
+					    System.out.flush();
+					    System.setOut(old);
+					    // Show what happened
+					    textArea.setText(baos.toString());
+					    Log2.writeToFile(selectedStock, username);	//Adding selected stock into the user's search log.
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}	
+					}
+				});
+				
 
 
-	
-		//View log button
-		btnViewLog.addMouseListener(new MouseAdapter() {
+			
+				//View log button
+				btnViewLog.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
