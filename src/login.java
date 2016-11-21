@@ -18,10 +18,10 @@ public class login {
 		try{
 			String line;
 			String login[]=new String[2];
-			//FileReader fr = new FileReader("users.txt");
-			//BufferedReader br = new BufferedReader(fr);
-			InputStream fr = this.getClass().getResourceAsStream("users.txt");
-			BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
+			FileReader fr = new FileReader("users.txt");
+			BufferedReader br = new BufferedReader(fr);
+			//InputStream fr = this.getClass().getResourceAsStream("users.txt");
+			//BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
 			while((line = br.readLine()) != null){
 				login = line.split(",");
 				if(name.equals(login[0]) && password.equals(login[1])){
