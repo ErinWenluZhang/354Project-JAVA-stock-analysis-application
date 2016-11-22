@@ -18,22 +18,27 @@ public class login {
 		try{
 			String line;
 			String login[]=new String[2];
-			FileReader fr = new FileReader("users.txt");
-			BufferedReader br = new BufferedReader(fr);
-			//InputStream fr = this.getClass().getResourceAsStream("users.txt");
-			//BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
+			//FileReader fr = new FileReader("users.txt");
+			//BufferedReader br = new BufferedReader(fr);
+		//	InputStream fr = this.getClass().getResourceAsStream("users.txt");
+		//	BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
+			BufferedReader br;
+			br = new BufferedReader(new FileReader("users.txt"));
 			while((line = br.readLine()) != null){
 				login = line.split(",");
 				if(name.equals(login[0]) && password.equals(login[1])){
+					br.close();
 					return true;
 				}
 			}
+			br.close();
 		}catch(FileNotFoundException e1){
 			e1.printStackTrace();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
 		return false;
 	}
 }
