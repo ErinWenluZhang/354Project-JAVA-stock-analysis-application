@@ -36,8 +36,15 @@ public class Log2 {
 			int lineNumber = 0;		//lineNumber is used to identify which line to replace in the text file.
 			while((line = br.readLine()) != null) {	//Finding out if the user has already made searches in the past.
 				hold = line.split(",",-1);	//Putting the username and past searches into the log array.
+				System.out.println(hold.length);
+				
 				for(int i = 0; i < hold.length; i ++){
 					log[i] = hold[i];
+				}
+				if (hold.length != SEARCH_HISTORY){
+				//If the hold array was not full, then the rest of the log array is filled with empty searches.
+					for(int i = hold.length; i < SEARCH_HISTORY; i ++)
+						log[i] = null;
 				}
 				lineNumber += 1;
 			    if(log[0].equals(user)) { 	//The username is stored at index 0 of the log array.
@@ -165,5 +172,12 @@ public class Log2 {
 			if (log[i] == null)
 				return "";
 			return log[i];
+		}
+		
+		public static void setLogEmpty(){
+			for (int i = 0; i < SEARCH_HISTORY; i++){
+				log[i] = null;
+				System.out.println(i + log[i]);
+			}
 		}
 }

@@ -22,6 +22,7 @@ import java.awt.CardLayout;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
 
@@ -142,12 +143,7 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 		panel_1.setLayout(null);
 		
 		JButton btnLogout = new JButton("Logout");
-		btnLogout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				layout.show(getContentPane(),"login");
-				username = "";
-			}
-		});
+	
 		btnLogout.setBounds(331, 11, 88, 29);
 		panel_1.add(btnLogout);
 		
@@ -170,12 +166,7 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 		panel_2.setLayout(gbl_panel_2);
 		
 		JButton btnLogout_2 = new JButton("Logout");
-		btnLogout_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				layout.show(getContentPane(), "login");
-				username = "";
-			}
-		});
+		
 		
 		JComboBox comboBox = new JComboBox(new String[] {"AAPL", "AXP", "BA", "CAT", "CSCO", "CVX", "KO", "DD", "XOM", "GE", "GS","HD","IBM", "INTC",
 				"JNJ", "JPM", "MCD", "MMM", "MRK", "MSFT", "NKE", "PFE", "PG", "TRV", "UNH", "UTX", "V", "VZ", "WMT", "DIS"} );
@@ -244,12 +235,7 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 		panel_3.add(btnChoose_1, gbc_btnChoose_1);
 		
 		JButton btnChoose = new JButton("Logout");
-		btnChoose.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				layout.show(getContentPane(), "login");
-				username = "";
-			}
-		});
+		
 		
 		JButton btnHome_1 = new JButton("Home");
 		btnHome_1.addActionListener(new ActionListener() {
@@ -294,12 +280,7 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 		});
 		
 		JButton btnLogout_1 = new JButton("Logout");
-		btnLogout_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				layout.show(getContentPane(), "login");
-				username = "";
-			}
-		});
+		
 		
 		JTextArea textArea = new JTextArea();
 		textArea.setEditable(false);
@@ -332,27 +313,6 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 		gbc_btnNewButton.gridy = 2;
 		panel_4.add(btnNewButton, gbc_btnNewButton);
 		
-		JButton btnMovingAverage = new JButton("moving average");
-		GridBagConstraints gbc_btnMovingAverage = new GridBagConstraints();
-		gbc_btnMovingAverage.insets = new Insets(0, 0, 0, 5);
-		gbc_btnMovingAverage.gridx = 1;
-		gbc_btnMovingAverage.gridy = 2;
-		panel_4.add(btnMovingAverage, gbc_btnMovingAverage);
-		
-		JButton btnRecommedation = new JButton("recommedation");
-		btnRecommedation.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				graphGUI chart = new graphGUI("Recommedation", "Recommedation for "+selectedStock);
-			      chart.pack( );          
-			      RefineryUtilities.centerFrameOnScreen( chart );          
-			      chart.setVisible( true );
-			}
-		});
-		GridBagConstraints gbc_btnRecommedation = new GridBagConstraints();
-		gbc_btnRecommedation.gridx = 2;
-		gbc_btnRecommedation.gridy = 2;
-		panel_4.add(btnRecommedation, gbc_btnRecommedation);
-		
 		JPanel panel_5 = new JPanel();
 		contentPane.add(panel_5, "viewLog");
 		GridBagLayout gbl_panel_5 = new GridBagLayout();
@@ -370,19 +330,16 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 		panel_5.add(lblNewLabel, gbc_lblNewLabel);
 		
 		JButton btnLogout_3 = new JButton("Logout");
-		btnLogout_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				layout.show(getContentPane(),"login");
-			}
-		});
+		
 		GridBagConstraints gbc_btnLogout_3 = new GridBagConstraints();
 		gbc_btnLogout_3.anchor = GridBagConstraints.NORTH;
 		gbc_btnLogout_3.insets = new Insets(0, 0, 5, 0);
 		gbc_btnLogout_3.gridx = 3;
 		gbc_btnLogout_3.gridy = 0;
 		panel_5.add(btnLogout_3, gbc_btnLogout_3);
-		
-		JList logList = new JList();
+		DefaultListModel model = new DefaultListModel();
+		//JList logList = new JList();
+		JList logList = new JList(model);
 		GridBagConstraints gbc_logList = new GridBagConstraints();
 		gbc_logList.insets = new Insets(0, 0, 5, 5);
 		gbc_logList.fill = GridBagConstraints.BOTH;
@@ -461,7 +418,10 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 				btnSelect.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						layout.show(getContentPane(), "stockdata");
-						try {
+						try { 
+							Log2.setLogEmpty();
+							Log2.writeToFile(selectedStock, username);	//Adding selected stock into the user's search log.
+							Log2.displayLogInfo(username);
 							Stock select = YahooFinance.get(selectedStock);
 						ByteArrayOutputStream baos = new ByteArrayOutputStream();
 					    PrintStream ps = new PrintStream(baos);
@@ -476,7 +436,7 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 					    System.setOut(old);
 					    // Show what happened
 					    textArea.setText(baos.toString());
-					    Log2.writeToFile(selectedStock, username);	//Adding selected stock into the user's search log.
+					  
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -496,9 +456,10 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 			public void mouseClicked(MouseEvent arg0) {
 				try {
 					Log2.displayLogInfo(username);
+					model.clear();
 					logList.setModel(new AbstractListModel() {
-						String[] values = new String[] {Log2.getIndexElement(1),Log2.getIndexElement(2),Log2.getIndexElement(3),Log2.getIndexElement(4),Log2.getIndexElement(5),
-					Log2.getIndexElement(6),Log2.getIndexElement(7),Log2.getIndexElement(8),Log2.getIndexElement(9),Log2.getIndexElement(10)};
+						String[] values = new String[] {Log2.getIndexElement(10),Log2.getIndexElement(9),Log2.getIndexElement(8),Log2.getIndexElement(7),Log2.getIndexElement(6),
+					Log2.getIndexElement(5),Log2.getIndexElement(4),Log2.getIndexElement(3),Log2.getIndexElement(2),Log2.getIndexElement(1)};
 
 						public int getSize() {
 							return values.length;
@@ -554,6 +515,89 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 		});
 		
 		
+		//Logout button from menu.
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				layout.show(getContentPane(),"login");
+				username = "";
+			//	Log2.setLogEmpty();
+				model.clear();
+			/*	try {
+					Log2.displayLogInfo(username);
+					logList.setModel(new AbstractListModel() {
+						String[] values = new String[] {"","","","","","","","","",""};
+
+						public int getSize() {
+							return values.length;
+						}
+						public Object getElementAt(int index) {
+							return values[index];
+						}
+					});
+					
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}*/
+			}
+		});
+		//Logout button from the basic stock information panel.
+				btnLogout_1.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						layout.show(getContentPane(), "login");
+						username = "";
+				//		Log2.setLogEmpty();
+						model.clear();
+					}
+				});
+				
+		//Logout button from the choose stock menu.
+		btnLogout_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				layout.show(getContentPane(),"login");
+				username = "";
+				Log2.setLogEmpty();
+				model.clear();
+			}
+		});
+		
+		//Logout button from log history menu.
+				btnLogout_3.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						layout.show(getContentPane(),"login");
+						username = "";
+				//		Log2.setLogEmpty();
+						model.clear();
+					}
+				});
+				
+		//Logout button from the choose stock data menu.
+		btnChoose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				layout.show(getContentPane(),"login");
+				username = "";
+			//	Log2.setLogEmpty();
+				model.clear();
+		/*		try {
+					Log2.displayLogInfo(username);
+					logList.setModel(new AbstractListModel() {
+						String[] values = new String[] {"","","","","","","","","",""};
+
+						public int getSize() {
+							return values.length;
+						}
+						public Object getElementAt(int index) {
+							return values[index];
+						}
+					});
+					
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}*/
+			}
+		});
 	}
-	
 }
