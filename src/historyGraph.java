@@ -35,6 +35,7 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RefineryUtilities;
+import org.jfree.chart.annotations.XYPointerAnnotation;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.labels.CrosshairLabelGenerator;
 import org.jfree.chart.panel.CrosshairOverlay;
@@ -52,6 +53,7 @@ public class historyGraph extends JFrame {
 	private String stock;
 	private int intv;
 	private XYDataset set;
+	private XYPointerAnnotation indicator;
 
 	public historyGraph(String applicationTitle, String chartTitle, String stock)
 			throws IOException {
@@ -72,9 +74,10 @@ public class historyGraph extends JFrame {
 		bar.add(MA50);
 		bar.add(MA100);
 		bar.add(MA200);
-		// JButton rec = new JButton("Recommedation");
-		// bar.add(rec);
+		final JButton rec= new JButton("recommendation");
+		bar.add(rec);
 		set = createDataset(intv);
+		indicator = analysis.indicator(set);
 		JFreeChart xylineChart = ChartFactory.createTimeSeriesChart(chartTitle,
 				"Time(days)", "Close Price",
 				// createDataset(intv) ,
@@ -140,6 +143,14 @@ public class historyGraph extends JFrame {
 				plot.getRenderer().setSeriesVisible(2, false);
 				plot.getRenderer().setSeriesVisible(3, false);
 				plot.getRenderer().setSeriesVisible(4, false);
+				plot.clearAnnotations();
+				
+				try {
+					indicator = analysis.indicator(set);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 
 			}
 		});
@@ -168,6 +179,19 @@ public class historyGraph extends JFrame {
 			}
 		});
 
+		rec.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				plot.getRenderer().setSeriesVisible(1, true);
+				plot.getRenderer().setSeriesVisible(2, false);
+				plot.getRenderer().setSeriesVisible(3, false);
+				plot.getRenderer().setSeriesVisible(4, true);
+				plot.addAnnotation(indicator);
+				MA20.setSelected(true);
+				MA200.setSelected(true);
+				MA50.setSelected(false);
+				MA100.setSelected(false);
+			}
+		});
 		traceValue(chartPanel);
 	}
 

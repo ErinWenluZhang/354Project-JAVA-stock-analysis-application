@@ -526,7 +526,7 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 			public void actionPerformed(ActionEvent e) {
 				layout.show(getContentPane(),"login");
 				username = "";
-			//	Log2.setLogEmpty();
+				Log2.setLogEmpty();
 				model.clear();
 			/*	try {
 					Log2.displayLogInfo(username);
@@ -552,7 +552,7 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 					public void actionPerformed(ActionEvent e) {
 						layout.show(getContentPane(), "login");
 						username = "";
-				//		Log2.setLogEmpty();
+						Log2.setLogEmpty();
 						model.clear();
 					}
 				});
@@ -572,7 +572,7 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 					public void actionPerformed(ActionEvent e) {
 						layout.show(getContentPane(),"login");
 						username = "";
-				//		Log2.setLogEmpty();
+						Log2.setLogEmpty();
 						model.clear();
 					}
 				});
@@ -582,7 +582,7 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 			public void actionPerformed(ActionEvent e) {
 				layout.show(getContentPane(),"login");
 				username = "";
-			//	Log2.setLogEmpty();
+				Log2.setLogEmpty();
 				model.clear();
 		/*		try {
 					Log2.displayLogInfo(username);
