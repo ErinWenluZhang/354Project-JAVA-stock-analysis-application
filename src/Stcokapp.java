@@ -1,3 +1,4 @@
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -526,7 +527,6 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 					Log2.displayLogInfo(username);
 					logList.setModel(new AbstractListModel() {
 						String[] values = new String[] {"","","","","","","","","",""};
-
 						public int getSize() {
 							return values.length;
 						}
@@ -583,7 +583,6 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 					Log2.displayLogInfo(username);
 					logList.setModel(new AbstractListModel() {
 						String[] values = new String[] {"","","","","","","","","",""};
-
 						public int getSize() {
 							return values.length;
 						}
