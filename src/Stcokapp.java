@@ -301,6 +301,11 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 		panel_4.add(btnLogout_1, gbc_btnLogout_1);
 		
 		JButton btnHome_2 = new JButton("Home");
+		btnHome_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				layout.show(getContentPane(), "mainMenu");
+			}
+		});
 		GridBagConstraints gbc_btnHome_2 = new GridBagConstraints();
 		gbc_btnHome_2.anchor = GridBagConstraints.NORTH;
 		gbc_btnHome_2.insets = new Insets(0, 0, 5, 0);
