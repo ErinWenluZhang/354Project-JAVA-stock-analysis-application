@@ -57,6 +57,9 @@ public class Log2 {
 			    }    
 			}
 			//If the user has not made searches in the past, then add the user and their first search into the log.
+			setLogEmpty();
+			log[0] = user;
+			log[1] = searched;
 			addNewUserHistory(user,searched);
 			br.close();
 		}
@@ -65,23 +68,10 @@ public class Log2 {
 	
 		//Method that displays the searches made for this particular user.
 		public static void displayLogInfo(String user) throws IOException{
-		//	String[] hold = new String[SEARCH_HISTORY];
-		//	BufferedReader br;
-		//	br = new BufferedReader(new FileReader("log.txt"));
-		//	String line = "";
-		//	while((line = br.readLine()) != null) {	//Finding out if the user has already made searches in the past.
-		//		hold = line.split(",");
-		//	    if(hold[0].equals(user)) { 
-		//	        br.close();
-			        System.out.println(user +" has made the past searches: ");
-			        for (int i = SEARCH_HISTORY - 1; i > 0 ; i	--)
-			        	if(log[i] != null)
-			        	System.out.println(log[i]);
-			//        return;
-			//    }	
-			//}
-		//	br.close();
-			//System.out.println("User not found.");
+			System.out.println(user +" has made the past searches: ");
+			for (int i = SEARCH_HISTORY - 1; i > 0 ; i	--)
+			   	if(log[i] != null)
+			   		System.out.println(log[i]);
 		}
 		
 		//Method that updates the log file. 
@@ -136,7 +126,7 @@ public class Log2 {
 			try(FileWriter fw = new FileWriter("log.txt", true);
 				    BufferedWriter bw = new BufferedWriter(fw);
 				    PrintWriter out = new PrintWriter(bw))
-				{
+				{	
 				    out.println(user + "," + searched);
 				    
 				} catch (IOException e) {
@@ -174,6 +164,7 @@ public class Log2 {
 			return log[i];
 		}
 		
+		//Method that removes all the contents of the log.
 		public static void setLogEmpty(){
 			for (int i = 0; i < SEARCH_HISTORY; i++){
 				log[i] = null;

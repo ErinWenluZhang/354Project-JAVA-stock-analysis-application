@@ -174,7 +174,7 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				selectedStock = (String) comboBox.getSelectedItem();
-				System.out.println(selectedStock);
+			//	System.out.println(selectedStock);
 			}
 		});
 		
@@ -400,6 +400,12 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 			passwordField.setText("");
 			
 			if(new login(user,pass).verify()){
+				try {
+					Log2.setLog(user);
+				} catch (IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				layout.show(getContentPane(), "mainMenu");
 				username = user;
 				lblNewLabel.setText(username + " search history");
@@ -425,7 +431,7 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 					public void actionPerformed(ActionEvent e) {
 						layout.show(getContentPane(), "stockdata");
 						try { 
-							Log2.setLogEmpty();
+							//Log2.setLogEmpty();
 							Log2.writeToFile(selectedStock, username);	//Adding selected stock into the user's search log.
 							Log2.displayLogInfo(username);
 							Stock select = YahooFinance.get(selectedStock);
@@ -487,6 +493,7 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 		logList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+			//	Log2.setLogEmpty();
 				selectedStock = (String)logList.getSelectedValue();
 			}
 		});
@@ -528,23 +535,6 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 				username = "";
 				Log2.setLogEmpty();
 				model.clear();
-			/*	try {
-					Log2.displayLogInfo(username);
-					logList.setModel(new AbstractListModel() {
-						String[] values = new String[] {"","","","","","","","","",""};
-						public int getSize() {
-							return values.length;
-						}
-						public Object getElementAt(int index) {
-							return values[index];
-						}
-					});
-					
-					
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}*/
 			}
 		});
 		//Logout button from the basic stock information panel.
@@ -584,23 +574,6 @@ public class Stcokapp extends JFrame /*implements ActionListener*/{
 				username = "";
 				Log2.setLogEmpty();
 				model.clear();
-		/*		try {
-					Log2.displayLogInfo(username);
-					logList.setModel(new AbstractListModel() {
-						String[] values = new String[] {"","","","","","","","","",""};
-						public int getSize() {
-							return values.length;
-						}
-						public Object getElementAt(int index) {
-							return values[index];
-						}
-					});
-					
-					
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}*/
 			}
 		});
 	}
