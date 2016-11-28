@@ -2,3 +2,12 @@ user,111
 user3,111
 user5,111
 buyer,111
+viewLog1,111
+viewLog2,111
+viewLog3,111
+chooseStock1,111
+chooseStock2,111
+chooseStock3,111
+chooseStock4,111
+choseStock5,111
+chooseStock6,111
